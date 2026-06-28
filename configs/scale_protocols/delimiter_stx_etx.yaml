@@ -1,0 +1,7 @@
+id: delimiter_stx_etx
+name: STX/ETX 分隔帧（变长）
+type: delimiter
+encoding: ascii
+header_hex: "02"
+tail_hex: "03"
+unit_output: g

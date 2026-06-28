@@ -1,0 +1,13 @@
+id: ascii_line_kg
+name: ASCII 行协议 kg
+type: line_terminated
+line_ending: "\r\n"
+encoding: ascii
+pattern: '^([+-]?)(\d+\.\d+)\s*(g|kg)\s*(ST|US)?'
+groups:
+  sign: 1
+  value: 2
+  unit: 3
+  stable: 4
+stable_values: ["ST", "S"]
+unit_output: g

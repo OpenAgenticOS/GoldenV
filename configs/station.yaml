@@ -1,0 +1,38 @@
+cameras:
+  - id: cam_top
+    name: 顶部工业相机
+    kind: simulated          # 生产环境改为 dahua，并填写 ip
+    # kind: dahua
+    # ip: 192.168.1.100
+    width: 1280
+    height: 960
+    pixel_format: Mono8
+    exposure_us: 8000
+    gain: 1.0
+    calibration:
+      mm_per_pixel: 0.08
+
+scales:
+  - id: scale_main
+    name: 主电子秤
+    protocol_id: ascii_line_kg
+    port: auto
+    baudrate: 9600
+    bytesize: 8
+    parity: N
+    stopbits: 1
+    stable:
+      threshold_g: 0.01
+      consecutive: 3
+
+measurement:
+  type: inner_diameter
+  roi: [200, 150, 1080, 810]
+  threshold: 80
+  min_area_px: 5000
+  inner_min_area_px: 500
+
+storage:
+  database_path: data/goldenv.sqlite3
+  image_dir: data/images
+  overlay_dir: data/overlays

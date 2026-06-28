@@ -1,0 +1,2 @@
+# 12-byte scale frame samples (hex)
+# Valid frame: 02 + sign + weight(6) + unit(2) + status + 03

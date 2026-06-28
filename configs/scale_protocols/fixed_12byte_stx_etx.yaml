@@ -1,0 +1,39 @@
+id: fixed_12byte_stx_etx
+name: 通用12字节定长帧（STX/ETX）
+type: fixed_length
+frame_length: 12
+encoding: ascii
+fields:
+  - name: header
+    offset: 0
+    length: 1
+    type: hex
+    expect: "02"
+  - name: sign
+    offset: 1
+    length: 1
+    type: ascii
+    map: {"+": 1, "-": -1, " ": 1}
+  - name: weight
+    offset: 2
+    length: 6
+    type: ascii
+    decimal_places: 2
+  - name: unit
+    offset: 8
+    length: 2
+    type: ascii
+    map: {" g": "g", "kg": "kg"}
+  - name: status
+    offset: 10
+    length: 1
+    type: bitfield
+    stable_bit: 0
+  - name: tail
+    offset: 11
+    length: 1
+    type: hex
+    expect: "03"
+checksum:
+  enabled: false
+unit_output: g

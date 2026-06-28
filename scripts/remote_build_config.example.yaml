@@ -1,0 +1,35 @@
+# 远程构建配置示例（复制为 remote_build_config.yaml 后修改，勿提交密码）
+#
+# Windows .exe 必须在 platform=windows 的远程机构建（OpenSSH + PowerShell）。
+# Ubuntu 远程机请用 platform=linux，产物为 Linux 可执行目录（非 exe）。
+
+host: "192.168.1.100"
+port: 22
+username: "build"
+# password 留空则从环境变量 REMOTE_BUILD_PASSWORD 读取
+password: ""
+
+# 远程工作目录（Linux 示例: /home/build/goldenv-build；Windows 示例: C:/goldenv-build）
+remote_dir: "/home/build/goldenv-build"
+
+# windows | linux
+platform: "linux"
+
+# 拉回本地的目录
+local_output: "./Output/remote_build"
+
+# 是否在上传前本地跑 pytest（可选）
+run_local_tests: false
+
+# Windows 远程构建额外选项
+windows:
+  python: "python"
+  include_dahua_sdk: false
+
+# 构建完成后下载的文件（相对项目根目录）
+artifacts:
+  linux:
+    - "dist/GoldenV-linux.tar.gz"
+  windows:
+    - "Output/GoldenV_Setup.exe"
+    - "dist/GoldenV.zip"

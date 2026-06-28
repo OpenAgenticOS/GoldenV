@@ -1,0 +1,11 @@
+id: mettler_toledo_sics
+name: 梅特勒-托利多 SICS 子集
+type: line_terminated
+line_ending: "\r\n"
+encoding: ascii
+pattern: '^S\s+S\s+([+-]?\d+\.\d+)\s+(g|kg)'
+groups:
+  value: 1
+  unit: 2
+stable_inference: variance
+unit_output: g

@@ -1,0 +1,11 @@
+id: and_fz_csv
+name: A&D FZ CSV 风格
+type: line_terminated
+line_ending: "\r\n"
+encoding: ascii
+pattern: '^ST,GS,([+-]?\d+\.?\d*),(g|kg)'
+groups:
+  value: 1
+  unit: 2
+stable_values: ["ST"]
+unit_output: g
