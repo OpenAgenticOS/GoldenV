@@ -89,4 +89,5 @@ jobs:
           files: |
             Output/GoldenV_Setup.exe
             Output/GoldenV-portable-win64.zip
+            docs/GoldenV_安装使用手册.pdf
           fail_on_unmatched_files: false

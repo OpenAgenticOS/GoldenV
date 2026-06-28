@@ -1,7 +1,7 @@
 ; GoldenV Inno Setup 安装脚本
 
 #define AppName "黄金镯子检测系统"
-#define AppVersion "0.1.0"
+#define AppVersion "1.0.0"
 #define AppPublisher "GoldenV"
 #define AppExeName "GoldenV.exe"
 
