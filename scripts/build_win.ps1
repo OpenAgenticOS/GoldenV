@@ -26,7 +26,10 @@ pip install pyinstaller
 
 if (Test-Path "dist\GoldenV") { Remove-Item "dist\GoldenV" -Recurse -Force }
 New-Item -ItemType Directory -Force -Path "Output" | Out-Null
-pyinstaller packaging\goldenv.spec --noconfirm --distpath dist --workpath build
+python -m PyInstaller packaging\goldenv.spec --noconfirm --distpath dist --workpath build
+if (-not (Test-Path "dist\GoldenV\GoldenV.exe")) {
+    throw "PyInstaller 未生成 dist\GoldenV\GoldenV.exe"
+}
 
 $dist = Join-Path $ProjectRoot "dist\GoldenV"
 if ($IncludeDahuaSdk) {

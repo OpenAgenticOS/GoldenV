@@ -4,6 +4,9 @@ param(
 
 $exe = Join-Path $ProjectRoot "dist\GoldenV\GoldenV.exe"
 if (-not (Test-Path $exe)) {
+    if ($env:CI -eq "true") {
+        throw "未找到 $exe，PyInstaller 打包失败"
+    }
     Write-Warning "未找到 $exe，尝试源码 headless 测试"
     Set-Location $ProjectRoot
     python -m goldenv.app --headless-test --simulate
