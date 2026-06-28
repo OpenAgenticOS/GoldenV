@@ -126,19 +126,29 @@ python scripts/fetch_win_build.py --ref main --output Output/ci_build
 ### 方式二：GitHub 网页手动触发
 
 1. 仓库 → **Actions** → **Build Windows** → **Run workflow**
-2. 选择分支 → Run
-3. 构建完成后在 Run 详情页 **Artifacts** 下载
+2. 填写 **Release 标签**（如 `v0.1.0`）→ Run
+3. 构建完成后在 [Releases](https://github.com/OpenAgenticOS/GoldenV/releases) 页面下载
 
-### 方式三：发 Release 自动构建
+### 方式三：打 tag 自动发 Release（推荐交付）
 
-创建 GitHub Release 时会自动运行 Windows 构建，并将 `GoldenV_Setup.exe` 附到 Release 附件。
+```bash
+git tag v0.1.0
+git push origin v0.1.0
+```
+
+推送 `v*` 标签后会自动构建，并在 Releases 发布：
+
+- `GoldenV_Setup.exe` — Windows 安装包
+- `GoldenV-portable-win64.zip` — 免安装绿色版
+
+公开下载地址：https://github.com/OpenAgenticOS/GoldenV/releases/latest
 
 ### CI 说明
 
 | 工作流 | 触发 | 作用 |
 |--------|------|------|
 | `ci.yml` | push / PR | Ubuntu 跑 pytest |
-| `build-windows.yml` | 手动 / Release | Windows 打 exe 安装包 |
+| `build-windows.yml` | 推送 `v*` tag / 手动 | Windows 打包并发布 Release |
 
 ## 测试
 

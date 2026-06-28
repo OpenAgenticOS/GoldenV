@@ -1,14 +1,23 @@
 name: Build Windows
 
 on:
+  push:
+    tags:
+      - "v*"
   workflow_dispatch:
     inputs:
       ref:
         description: 要构建的分支或 tag
         required: false
         default: main
-  release:
-    types: [published]
+      release_tag:
+        description: Release 标签（如 v0.1.0），将自动创建公开下载
+        required: true
+        default: v0.1.0
+      prerelease:
+        description: 标记为预发布版本
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -18,6 +27,7 @@ jobs:
     runs-on: windows-latest
     env:
       CI: true
+      RELEASE_TAG: ${{ github.event_name == 'workflow_dispatch' && inputs.release_tag || github.ref_name }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -49,20 +59,34 @@ jobs:
           }
           Get-ChildItem dist/GoldenV/GoldenV.exe, Output/GoldenV_Setup.exe -ErrorAction SilentlyContinue | Format-Table Name, Length
 
+      - name: Package portable zip
+        shell: pwsh
+        run: |
+          if (Test-Path Output/GoldenV-portable-win64.zip) {
+            Remove-Item Output/GoldenV-portable-win64.zip
+          }
+          Compress-Archive -Path dist/GoldenV/* -DestinationPath Output/GoldenV-portable-win64.zip
+
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: GoldenV-windows-${{ github.run_number }}
+          name: GoldenV-windows-${{ env.RELEASE_TAG }}-${{ github.run_number }}
           path: |
             dist/GoldenV/
             Output/GoldenV_Setup.exe
+            Output/GoldenV-portable-win64.zip
           if-no-files-found: error
           retention-days: 30
 
-      - name: Upload to GitHub Release
-        if: github.event_name == 'release'
+      - name: Publish GitHub Release
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ env.RELEASE_TAG }}
+          name: GoldenV ${{ env.RELEASE_TAG }}
+          prerelease: ${{ github.event_name == 'workflow_dispatch' && inputs.prerelease || false }}
+          generate_release_notes: true
+          make_latest: true
           files: |
             Output/GoldenV_Setup.exe
+            Output/GoldenV-portable-win64.zip
           fail_on_unmatched_files: false
